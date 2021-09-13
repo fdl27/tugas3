@@ -19,7 +19,7 @@ public class KreditNasabah {
     public int norek;
 
     @ColumnInfo(name = "tanggal_jatuh_tempo")
-    public Date tanggalJatuhTempo;
+    public String tanggalJatuhTempo;
 
     @ColumnInfo(name = "jumlah_tagihan")
     public double jumlahTagihan;

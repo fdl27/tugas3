@@ -35,7 +35,7 @@ public class KreditNasabahUpdateFragment extends Fragment {
     private double jumlahTagihan;
 
     private TextInputLayout textInputTanggalJatuhTempo;
-    private Date tanggalJatuhTempo;
+    private String tanggalJatuhTempo;
 
     private Button roomSaveButton;
 
@@ -52,13 +52,13 @@ public class KreditNasabahUpdateFragment extends Fragment {
     private double jumlahTagihanFromDialog;
     private Date tanggalJatuhTempoFromDialog;
 
-    public static KreditNasabahUpdateFragment newInstance(int id, String name, int norek, double jumlahTagihan, Date tanggalJatuhTempo){
+    public static KreditNasabahUpdateFragment newInstance(int id, String name, int norek, double jumlahTagihan, String tanggalJatuhTempo){
         Bundle args = new Bundle();
         args.putInt(ID, id);
         args.putString(NAME, name);
         args.putInt(NOREK, norek);
         args.putDouble(JUMLAH_TAGIHAN, jumlahTagihan);
-        args.putLong(TANGGAL_JATUH_TEMPO, tanggalJatuhTempo.getTime());
+        args.putString(TANGGAL_JATUH_TEMPO, tanggalJatuhTempo);
         KreditNasabahUpdateFragment kreditNasabahUpdateFragment = new KreditNasabahUpdateFragment();
         kreditNasabahUpdateFragment.setArguments(args);
         return kreditNasabahUpdateFragment;
@@ -103,11 +103,7 @@ public class KreditNasabahUpdateFragment extends Fragment {
                 name = textInputNameLayout.getEditText().getText().toString();
                 norek = Integer.valueOf(textInputNorekLayout.getEditText().getText().toString());
                 jumlahTagihan = Double.valueOf(textInputJumlahTagihanLayout.getEditText().getText().toString());
-                try {
-                    tanggalJatuhTempo = toDate(textInputTanggalJatuhTempo.getEditText().getText().toString());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                tanggalJatuhTempo = textInputTanggalJatuhTempo.getEditText().getText().toString();
 
                 KreditNasabah kreditNasabah = new KreditNasabah();
                 kreditNasabah.id = id;

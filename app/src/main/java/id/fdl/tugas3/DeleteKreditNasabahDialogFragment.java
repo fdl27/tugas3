@@ -27,7 +27,7 @@ public class DeleteKreditNasabahDialogFragment extends DialogFragment {
     private String name;
     private int norek;
     private double jumlahTagihan;
-    private Date tanggalJatuhTempo;
+    private String tanggalJatuhTempo;
 
     private KreditNasabahViewModel kreditNasabahViewModel;
 
@@ -37,7 +37,7 @@ public class DeleteKreditNasabahDialogFragment extends DialogFragment {
         args.putString(TAG_NAME, kreditNasabah.name);
         args.putInt(TAG_NOREK, kreditNasabah.norek);
         args.putDouble(TAG_JUMLAH_TAGIHAN, kreditNasabah.jumlahTagihan);
-        args.putLong(TAG_TANGGAL_JATUH_TEMPO, kreditNasabah.tanggalJatuhTempo.getTime());
+        args.putString(TAG_TANGGAL_JATUH_TEMPO, kreditNasabah.tanggalJatuhTempo);
         DeleteKreditNasabahDialogFragment dudf = new DeleteKreditNasabahDialogFragment();
         dudf.setArguments(args);
         return dudf;
@@ -55,7 +55,7 @@ public class DeleteKreditNasabahDialogFragment extends DialogFragment {
             name = getArguments().getString(TAG_NAME, null);
             norek = getArguments().getInt(TAG_NOREK, 0);
             jumlahTagihan = getArguments().getDouble(TAG_JUMLAH_TAGIHAN, 0.0);
-            tanggalJatuhTempo = new Date(getArguments().getLong(TAG_TANGGAL_JATUH_TEMPO, 0l));
+            tanggalJatuhTempo = getArguments().getString(TAG_TANGGAL_JATUH_TEMPO, null);
         }
 
         kreditNasabahViewModel = new ViewModelProvider(requireActivity()).get(KreditNasabahViewModel.class);

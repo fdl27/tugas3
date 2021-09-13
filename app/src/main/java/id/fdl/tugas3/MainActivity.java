@@ -1,6 +1,7 @@
 package id.fdl.tugas3;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +12,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_everyday);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container_every_day, RoomMainFragment.newInstance())
+                    .commitNow();
+        }
     }
 
     public void goToRoom(View view){
-        Intent intent = new Intent(MainActivity.this, RoomActivity.class);
-        startActivity(intent);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container_every_day, RoomFragment.newInstance())
+                .commitNow();
     }
 }
