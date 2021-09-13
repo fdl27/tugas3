@@ -11,10 +11,12 @@ import java.util.concurrent.Executors;
 
 @Database(entities = {KreditNasabah.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
+
     public abstract KreditNasabahDao kreditNasabahDao();
 
     private static volatile AppDatabase INSTANCE;
-    private static final int NUMBER_OF_THREADS = 4;
+
+    private static final int NUMBER_OF_THREADS = 100;
     static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
