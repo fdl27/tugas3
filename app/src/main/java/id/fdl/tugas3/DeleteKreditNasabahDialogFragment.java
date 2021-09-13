@@ -10,6 +10,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.Date;
+
 import id.fdl.tugas3.room.KreditNasabah;
 import id.fdl.tugas3.room.KreditNasabahViewModel;
 
@@ -22,8 +24,10 @@ public class DeleteKreditNasabahDialogFragment extends DialogFragment {
     private static final String TAG_TANGGAL_JATUH_TEMPO = "TAG_TANGGAL_JATUH_TEMPO";
 
     private int uid = -1;
-    private String firstName;
-    private String lastName;
+    private String name;
+    private int norek;
+    private double jumlahTagihan;
+    private Date tanggalJatuhTempo;
 
     private KreditNasabahViewModel kreditNasabahViewModel;
 
@@ -43,11 +47,15 @@ public class DeleteKreditNasabahDialogFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null && getArguments().containsKey(TAG_ID)
-                && getArguments().containsKey(TAG_FIRST_NAME)
-                && getArguments().containsKey(TAG_LAST_NAME)) {
+                && getArguments().containsKey(TAG_NOREK)
+                && getArguments().containsKey(TAG_NAME)
+                && getArguments().containsKey(TAG_TANGGAL_JATUH_TEMPO)
+                && getArguments().containsKey(TAG_JUMLAH_TAGIHAN)) {
             uid = getArguments().getInt(TAG_ID, -1);
-            firstName = getArguments().getString(TAG_FIRST_NAME, null);
-            lastName = getArguments().getString(TAG_LAST_NAME, null);
+            name = getArguments().getString(TAG_NAME, null);
+            norek = getArguments().getInt(TAG_NOREK, 0);
+            jumlahTagihan = getArguments().getDouble(TAG_JUMLAH_TAGIHAN, 0.0);
+            tanggalJatuhTempo = new Date(getArguments().getLong(TAG_TANGGAL_JATUH_TEMPO, 0l));
         }
 
         kreditNasabahViewModel = new ViewModelProvider(requireActivity()).get(KreditNasabahViewModel.class);
@@ -55,11 +63,13 @@ public class DeleteKreditNasabahDialogFragment extends DialogFragment {
 
     private void deleteUser() {
         if (uid != -1) {
-            User user = new User();
-            user.uid = uid;
-            user.firstName = firstName;
-            user.lastName = lastName;
-            userViewModel.delete(user);
+            KreditNasabah kreditNasabah = new KreditNasabah();
+            kreditNasabah.id = uid;
+            kreditNasabah.name = name;
+            kreditNasabah.jumlahTagihan = jumlahTagihan;
+            kreditNasabah.norek = norek;
+            kreditNasabah.tanggalJatuhTempo = tanggalJatuhTempo;
+            kreditNasabahViewModel.delete(kreditNasabah);
         }
     }
 
@@ -67,7 +77,7 @@ public class DeleteKreditNasabahDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Do you want to delete " + firstName + "?")
+        builder.setMessage("Do you want to delete " + name + "?")
                 .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -78,7 +88,7 @@ public class DeleteKreditNasabahDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         getActivity().getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.container_every_day, UserUpdateFragment.newInstance(uid, firstName, lastName))
+                                .replace(R.id.container_every_day, KreditNasabahUpdateFragment.newInstance(uid,name, norek, jumlahTagihan, tanggalJatuhTempo))
                                 .commitNow();
                     }
                 });

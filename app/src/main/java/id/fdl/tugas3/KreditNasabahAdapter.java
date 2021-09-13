@@ -1,7 +1,8 @@
 package id.fdl.tugas3;
 
+
+
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -15,7 +16,7 @@ public class KreditNasabahAdapter extends ListAdapter<KreditNasabah, KreditNasab
     private final KreditNasabahClickableCallback userClickableCallback = new KreditNasabahClickableCallback() {
         @Override
         public void onClick(View view, KreditNasabah kreditNasabah) {
-            DialogFragment newFragment = DeleteUserDialogFragment.newInstance(kreditNasabah);
+            DialogFragment newFragment = DeleteKreditNasabahDialogFragment.newInstance(kreditNasabah);
             newFragment.show(getChildFragmentManager(), "DeleteUserDialogFragment");
         }
     };

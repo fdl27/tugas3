@@ -15,6 +15,8 @@ public class RoomFragment extends Fragment {
     private KreditNasabahAdapter kreditNasabahAdapter;
 
 
+    public static RoomFragment newInstance(){
 
+    }
 
 }

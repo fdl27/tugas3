@@ -14,8 +14,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import id.fdl.tugas3.room.KreditNasabah;
 import id.fdl.tugas3.room.KreditNasabahViewModel;
 
 public class KreditNasabahUpdateFragment extends Fragment {
@@ -31,7 +34,7 @@ public class KreditNasabahUpdateFragment extends Fragment {
     private TextInputLayout textInputJumlahTagihanLayout;
     private double jumlahTagihan;
 
-    private MaterialDatePicker.Builder datePicker;
+    private TextInputLayout textInputTanggalJatuhTempo;
     private Date tanggalJatuhTempo;
 
     private Button roomSaveButton;
@@ -79,24 +82,41 @@ public class KreditNasabahUpdateFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.day5_room_user_input, container, false);
-        roomTextInputLayoutFirstName = view.findViewById(R.id.roomTextInputLayoutFirstName);
-        roomTextInputLayoutFirstName.getEditText().setText(firstNameFromDialog);
+        View view = inflater.inflate(R.layout.room_user_input, container, false);
 
-        roomTextInputLayoutLastName = view.findViewById(R.id.roomTextInputLayoutLastName);
-        roomTextInputLayoutLastName.getEditText().setText(lastNameFromDialgo);
+        textInputNameLayout = view.findViewById(R.id.textInputNameLayout);
+        textInputNameLayout.getEditText().setText(nameFromDialog);
 
-        roomSaveUser = view.findViewById(R.id.roomSaveUser);
-        roomSaveUser.setOnClickListener(new View.OnClickListener() {
+        textInputNorekLayout = view.findViewById(R.id.textInputNorekLayout);
+        textInputNorekLayout.getEditText().setText(norekFromDialog);
+
+        textInputJumlahTagihanLayout = view.findViewById(R.id.textInputJumlahTagihanLayout);
+        textInputJumlahTagihanLayout.getEditText().setText((int) jumlahTagihanFromDialog);
+
+        textInputTanggalJatuhTempo = view.findViewById(R.id.textInputTanggalJatuhTempo);
+        textInputTanggalJatuhTempo.getEditText().setText(dateToString(tanggalJatuhTempoFromDialog));
+
+        roomSaveButton = view.findViewById(R.id.roomSaveButton);
+        roomSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firstName = roomTextInputLayoutFirstName.getEditText().getText().toString();
-                lastName = roomTextInputLayoutLastName.getEditText().getText().toString();
-                User user = new User();
-                user.uid = uid;
-                user.firstName = firstName;
-                user.lastName = lastName;
-                kreditNasabahViewModel.update(user);
+                name = textInputNameLayout.getEditText().getText().toString();
+                norek = Integer.valueOf(textInputNorekLayout.getEditText().getText().toString());
+                jumlahTagihan = Double.valueOf(textInputJumlahTagihanLayout.getEditText().getText().toString());
+                try {
+                    tanggalJatuhTempo = toDate(textInputTanggalJatuhTempo.getEditText().getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                KreditNasabah kreditNasabah = new KreditNasabah();
+                kreditNasabah.id = id;
+                kreditNasabah.name = name;
+                kreditNasabah.norek = norek;
+                kreditNasabah.jumlahTagihan = jumlahTagihan;
+                kreditNasabah.tanggalJatuhTempo = tanggalJatuhTempo;
+
+                kreditNasabahViewModel.update(kreditNasabah);
                 backToRoomFragment();
             }
         });
@@ -105,9 +125,18 @@ public class KreditNasabahUpdateFragment extends Fragment {
 
     private void backToRoomFragment(){
         requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container_every_day, Day5RoomFragment.newInstance())
+                .replace(R.id.container_every_day, RoomFragment.newInstance())
                 .commitNow();
     }
 
+    private Date toDate(String date) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.parse(date);
+    }
+
+    private String dateToString(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(date);
+    }
 
 }
