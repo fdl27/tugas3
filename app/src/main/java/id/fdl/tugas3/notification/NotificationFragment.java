@@ -38,7 +38,7 @@ public class NotificationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.day6_notification_fragment, container, false);
+        rootView = inflater.inflate(R.layout.notification_fragment, container, false);
         counterTimeView = rootView.findViewById(R.id.count_down);
         return rootView;
     }

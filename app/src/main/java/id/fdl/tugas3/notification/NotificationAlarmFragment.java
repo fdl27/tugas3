@@ -46,7 +46,7 @@ public class NotificationAlarmFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.day6_notification_alarm_fragment, container, false);
+        rootView = inflater.inflate(R.layout.notification_alarm_fragment, container, false);
         alarmButton = rootView.findViewById(R.id.fire_alarm);
         alarmButton.setOnClickListener(new View.OnClickListener() {
             @Override
